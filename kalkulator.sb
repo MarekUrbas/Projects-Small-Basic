@@ -1,0 +1,123 @@
+GraphicsWindow.Width = 260
+GraphicsWindow.Height = 250
+GraphicsWindow.Title = "Kalkulator"
+GraphicsWindow.BackgroundColor = "#f7efc8"
+GraphicsWindow.CanResize = "False"
+
+t = Controls.AddTextBox(10, 10)
+Controls.SetSize(t, 250, 25)
+Controls.SetTextBoxText(t, "")
+
+GraphicsWindow.BrushColor = "Red"
+btnC = Controls.AddButton("C", 180, 55)
+Controls.SetSize(btnC, 55, 25, )
+btnCE = Controls.AddButton("CE", 120, 55)
+Controls.SetSize(btnCE, 55, 25)
+btnCofnij = Controls.AddButton("Cofnij", 30, 55)
+Controls.SetSize(btnCofnij, 80, 25)
+
+GraphicsWindow.BrushColor = "Blue"
+btndziel = Controls.AddButton("/", 160, 90)
+Controls.SetSize(btndziel, 35, 25)
+btnmnoz = Controls.AddButton("*", 160, 125)
+Controls.SetSize(btnmnoz, 35, 25)
+btnminus = Controls.AddButton("-", 160, 160)
+Controls.SetSize(btnminus, 35, 25)
+btnplus = Controls.AddButton("+", 160, 190)
+Controls.SetSize(btnplus, 35, 25)
+btnrowna = Controls.AddButton("=", 200, 190)
+Controls.SetSize(btnrowna, 35, 25)
+
+
+btn1 = Controls.AddButton("1", 30, 160)
+Controls.SetSize(btn1, 35, 25)
+btn2 = Controls.AddButton("2", 75, 160)
+Controls.SetSize(btn2, 35, 25)
+btn3 = Controls.AddButton("3", 120, 160)
+Controls.SetSize(btn3, 35, 25)
+btn0 = Controls.AddButton("0", 30, 190)
+Controls.SetSize(btn0, 35, 25)
+btn4 = Controls.AddButton("4", 30, 125)
+Controls.SetSize(btn4, 35, 25)
+btn5 = Controls.AddButton("5", 75, 125)
+Controls.SetSize(btn5, 35, 25)
+btn6 = Controls.AddButton("6", 120, 125)
+Controls.SetSize(btn6, 35, 25)
+btn7 = Controls.AddButton("7", 30, 90)
+Controls.SetSize(btn7, 35, 25)
+btn8 = Controls.AddButton("8", 75, 90)
+Controls.SetSize(btn8, 35, 25)
+btn9 = Controls.AddButton("9", 120, 90)
+Controls.SetSize(btn9, 35, 25)
+
+btnplusminus = Controls.AddButton("+/-", 75, 190)
+Controls.SetSize(btnplusminus, 35, 25)
+czy_dodatni = "tak"
+btnprzec = Controls.AddButton(",", 120, 190)
+Controls.SetSize(btnprzec, 35, 25)
+btnsqrt = Controls.AddButton("sqrt", 200, 90)
+Controls.SetSize(btnsqrt, 35, 25)
+btnprocent = Controls.AddButton("%", 200, 125)
+Controls.SetSize(btnprocent, 35, 25)
+btnodwrotnosc = Controls.AddButton("1/x", 200, 160)
+Controls.SetSize(btnodwrotnosc, 35, 25)
+btnpot = Controls.AddButton("x^2", 200, 220)
+Controls.SetSize(btnpot, 35, 25)
+
+Controls.ButtonClicked = klik
+
+Sub klik
+  ostatni = Controls.LastClickedButton
+  If ostatni = btn0 Or ostatni = btn1 Or ostatni = btn2 Or ostatni = btn3 Or ostatni = btn4 Or ostatni = btn5 Or ostatni = btn6 Or ostatni = btn7 Or ostatni = btn8 Or ostatni = btn9  Then
+    akt = Controls.GetTextBoxText(t)
+    Controls.SetTextBoxText(t, Text.Append(akt, Controls.GetButtonCaption(ostatni)))
+  ElseIf ostatni = btnprzec Then
+    Controls.SetTextBoxText(t, Text.Append(Controls.GetTextBoxText(t), "."))
+  ElseIf ostatni = btnplusminus Then
+    If czy_dodatni = "tak" Then
+      Controls.SetTextBoxText(t, Text.Append("-", Controls.GetTextBoxText(t)))
+      czy_dodatni = "nie"
+    Else
+      Controls.SetTextBoxText(t, Math.Abs(Controls.GetTextBoxText(t)))
+      czy_dodatni = "tak"
+    EndIf
+  ElseIf ostatni = btnplus Or  ostatni = btnminus Or ostatni = btnmnoz Or ostatni = btndziel Then
+    a = Controls.GetTextBoxText(t)
+    Controls.SetTextBoxText(t, "")
+    znak = Controls.GetButtonCaption(ostatni)
+  ElseIf ostatni = btnsqrt Then
+    Controls.SetTextBoxText(t, Math.SquareRoot(Controls.GetTextBoxText(t)))
+  ElseIf ostatni = btnodwrotnosc Then
+    Controls.SetTextBoxText(t, 1/Controls.GetTextBoxText(t))
+  ElseIf ostatni = btnC Then
+    a = ""
+    b = ""
+    Controls.SetTextBoxText(t, "")
+  ElseIf ostatni = btnCE Then
+    Controls.SetTextBoxText(t, "")
+  ElseIf ostatni = btnCofnij Then
+    akt = Controls.GetTextBoxText(t)
+    Controls.SetTextBoxText(t, Text.GetSubText(akt, 1, Text.GetLength(akt)-1))
+  ElseIf ostatni = btnprocent Then
+    Controls.SetTextBoxText(t, (a * Controls.GetTextBoxText(t))/100)
+  ElseIf ostatni = btnrowna Then
+    b = Controls.GetTextBoxText(t)
+    If znak = "+" Then
+      Controls.SetTextBoxText(t, a + b)
+    ElseIf znak = "-" Then
+      Controls.SetTextBoxText(t, a - b)
+    ElseIf znak = "*" Then
+      Controls.SetTextBoxText(t, a * b)
+    ElseIf znak = "/" Then
+      If b = 0 Then
+        Controls.SetTextBoxText(t, "Pamiętaj! Nie dziel przez 0!")
+      Else
+        Controls.SetTextBoxText(t, a / b)
+      EndIf
+    EndIf
+  ElseIf ostatni = btnpot Then
+    akt = Controls.GetTextBoxText(t)
+    Controls.SetTextBoxText(t, akt*akt)
+  EndIf
+EndSub
+        

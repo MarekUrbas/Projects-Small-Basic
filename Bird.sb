@@ -1,0 +1,98 @@
+wys_okna = 600
+szer_okna = 600
+GraphicsWindow.Width = szer_okna
+GraphicsWindow.Height = wys_okna
+
+GraphicsWindow.BackgroundColor = "lightblue"
+
+rysuj_przeszkody()
+
+Timer.Tick = ruch
+Timer.Interval = 10
+
+bird = Shapes.AddImage("C:\Users\jerzy\Desktop\fb.png")
+wys_b = 50
+szer_b = 70
+x_b = szer_okna/2 - szer_b/2
+y_b = wys_okna/2 - wys_b/2
+Shapes.Move(bird,x_b,y_b)
+
+GraphicsWindow.KeyDown = leci_gora
+GraphicsWindow.KeyUp = leci_dol
+kierunek = "stoi"
+
+punkty = 0
+tekst_punkty = Shapes.AddText(punkty)
+
+Sub ruch
+  x_przeszkod = x_przeszkod - 1
+  Shapes.Move(przeszkoda_dol, x_przeszkod, y_dol)
+  Shapes.Move(przeszkoda_gora, x_przeszkod, y_gora)
+  If x_przeszkod<-100 Then
+    rysuj_przeszkody()
+  EndIf
+  If kierunek = "dol" Then
+    Shapes.Rotate(bird, 15)
+    y_b = y_b + 2
+  ElseIf kierunek = "gora" Then
+    Shapes.Rotate(bird, -15)
+    y_b = y_b - 2
+  EndIf
+  Shapes.Move(bird,x_b,y_b)
+  kolizje()
+  punkty = punkty + 1
+  Shapes.SetText(tekst_punkty, punkty)
+EndSub
+
+Sub rysuj_przeszkody
+  GraphicsWindow.BrushColor = "green"
+  wys_przeszkody_dol = Math.GetRandomNumber(201) + 49
+  wys_przeszkody_gora = wys_okna - wys_przeszkody_dol - 100
+  przeszkoda_dol = Shapes.AddRectangle(100, wys_przeszkody_dol)
+  przeszkoda_gora = Shapes.AddRectangle(100, wys_przeszkody_gora)
+  x_przeszkod = szer_okna
+  y_gora = 0
+  y_dol = wys_okna-wys_przeszkody_dol
+  Shapes.Move(przeszkoda_dol, x_przeszkod, y_dol)
+  Shapes.Move(przeszkoda_gora, x_przeszkod, y_gora)
+EndSub
+
+Sub leci_gora
+  If GraphicsWindow.LastKey = "Space" Then
+    kierunek = "gora"
+  EndIf
+EndSub
+
+Sub leci_dol
+  kierunek = "dol"
+EndSub
+
+
+Sub kolizje
+  If x_przeszkod > x_b - 100 AND x_przeszkod < x_b + szer_b Then
+    If y_b < wys_przeszkody_gora Or y_b + wys_b > wys_okna - wys_przeszkody_dol Then
+      Timer.Tick = stop
+    EndIf
+  EndIf
+  If y_b < 0 Or y_b + wys_b > wys_okna Then
+    Timer.Tick = stop
+  EndIf 
+EndSub
+
+Sub stop
+EndSub
+
+Sub wypisz_punkty
+  
+EndSub
+
+
+
+
+
+
+
+
+
+
+

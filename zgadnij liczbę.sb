@@ -1,0 +1,48 @@
+GraphicsWindow.Width = 350
+GraphicsWindow.Height = 350
+GraphicsWindow.BackgroundColor = "#999900"
+
+tbxOdpowiedz = Controls.AddTextBox(100, 130)
+btnZgadnij = Controls.AddButton("Zgaduj", 100, 100)
+wylosowana = Math.GetRandomNumber(100)
+
+btnRestart = Controls.AddButton("Losuj", 200, 100)
+licznik = 0
+
+Controls.ButtonClicked = zgadywanie
+
+Sub zgadywanie
+  If Controls.LastClickedButton = btnZgadnij Then
+    licznik = licznik + 1
+    odp = Controls.GetTextBoxText(tbxOdpowiedz)
+    GraphicsWindow.BrushColor = "white"
+    GraphicsWindow.FillRectangle(100,160,100, 80)
+    GraphicsWindow.BrushColor = "black"
+    If odp>wylosowana Then
+      GraphicsWindow.DrawBoundText(100,160, 100, "Podaj mniejszą liczbę")
+    ElseIf odp<wylosowana Then
+      GraphicsWindow.DrawBoundText(100,160, 100, "Podaj większą liczbę")
+    Else
+      GraphicsWindow.DrawBoundText(100,160, 100, "GRATULACJE! Udało Ci się!")
+    EndIf
+    GraphicsWindow.DrawBoundText(100,220, 100, licznik)
+  EndIf
+  If Controls.LastClickedButton = btnRestart Then
+    licznik = 0
+    wylosowana = Math.GetRandomNumber(100)
+  EndIf
+EndSub
+
+
+
+
+
+
+
+
+
+
+
+
+
+

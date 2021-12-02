@@ -1,0 +1,63 @@
+wys_okna = 480
+szer_okna = 600
+GraphicsWindow.Width = szer_okna
+GraphicsWindow.Height = wys_okna
+
+szer = 140
+wys = 40
+x = 120
+y = 0 
+przycisk = Controls.AddButton("Kliknij mnie!", x,y)
+Controls.Move(przycisk,x,y) 
+Controls.SetSize(przycisk, szer, wys)
+
+DX = 1
+DY = 1
+
+Timer.Interval = 10
+Timer.Tick = ruch
+
+Controls.ButtonClicked = Klikniety_przycisk
+
+Sub ruch
+  x = DX + x
+  y = DY + y
+  Controls.Move(przycisk,x,y) 
+  If y>wys_okna-wys Then
+    DY = DY * -1
+  EndIf
+  If x>szer_okna-szer Then
+    DX = DX * -1
+  EndIf 
+  If y<0 Then
+    DY = DY * -1
+  EndIf 
+  If x<0 Then
+    DX = DX * -1
+  EndIf 
+EndSub
+
+
+
+Sub Klikniety_przycisk
+  GraphicsWindow.BackgroundColor = GraphicsWindow.GetRandomColor()
+  szer = szer * 0.9
+  wys = wys * 0.9
+  Controls.SetSize(przycisk, szer, wys)
+  x = Math.GetRandomNumber(szer_okna - szer)
+  y = Math.GetRandomNumber(wys_okna - wys)
+  If DX > 0 Then
+    DX = DX + 1
+  Else
+    DX = DX - 1
+  EndIf 
+  If DY > 0 Then
+    DY = DY + 1
+  Else
+    DY = DY - 1
+  EndIf 
+EndSub
+  
+
+
+
